@@ -45,7 +45,7 @@ func main() {
 	registeredCommands := make([]*discordgo.ApplicationCommand, len(commands))
 
 	for i, v := range commands {
-		cmd, err := discord.ApplicationCommandCreate(discord.State.User.ID, "833851489301692436", v)
+		cmd, err := discord.ApplicationCommandCreate(discord.State.User.ID, env.Get("DEFAULT_GUILD_ID", "-1"), v)
 		if err != nil {
 			log.Panicf("Could not register command :: %v", err)
 		}
