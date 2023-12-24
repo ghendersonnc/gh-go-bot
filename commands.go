@@ -42,7 +42,7 @@ func gelbooruRequest(tags string) GelbooruPostResponse {
 	if err != nil {
 		log.Fatalf("Could not GET :: %v\n", err)
 	}
-	log.Println(gelbooruBaseUrl)
+
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
