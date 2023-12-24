@@ -47,7 +47,7 @@ func main() {
 	for i, v := range commands {
 		cmd, err := discord.ApplicationCommandCreate(discord.State.User.ID, "833851489301692436", v)
 		if err != nil {
-			log.Panicf("Fuck: %v", err)
+			log.Panicf("Could not register command :: %v", err)
 		}
 		registeredCommands[i] = cmd
 	}
