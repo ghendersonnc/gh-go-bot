@@ -82,13 +82,11 @@ func hashCmd(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		optionMap[opt.Name] = opt
 	}
 
-	var inputString string
 	hasher := sha256.New()
 
 	if val, ok := optionMap["string"]; ok {
-		inputString = val.StringValue()
 
-		hasher.Write([]byte(inputString))
+		hasher.Write([]byte(val.StringValue()))
 		response := fmt.Sprintf("%x", hasher.Sum(nil))
 		GenericResponse(s, i, response, "", "")
 		return
