@@ -9,6 +9,7 @@ var (
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
 		"ping":     respondPing,
 		"gelbooru": gelbooru,
+		"hash":     hashCmd,
 	}
 )
 
