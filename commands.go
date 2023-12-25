@@ -32,7 +32,7 @@ var (
 	}
 )
 
-func gelbooruRequest(tags string) GelbooruPostResponse {
+func gelbooruRequest(tags string) GelbooruPosts {
 	gelbooruBaseUrl := fmt.Sprintf(
 		"https://gelbooru.com/index.php?page=dapi&s=post&q=index&api_key=%s&user_id=%s&tags=%s%%20rating:general%%20sort:random&json=1&limit=1",
 		env.Get("GELBOORU_API_KEY", "NO_KEY"),
@@ -55,7 +55,7 @@ func gelbooruRequest(tags string) GelbooruPostResponse {
 		log.Fatalf("Could not read response body :: %v\n", err)
 	}
 
-	var result GelbooruPostResponse
+	var result GelbooruPosts
 	err = json.Unmarshal(body, &result)
 
 	if err != nil {
@@ -105,7 +105,7 @@ func gelbooru(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 
 	var tags string
-	var post GelbooruPostResponse
+	var post GelbooruPosts
 	var formattedTags string
 	if len(optionMap) == 0 {
 		tags = ""

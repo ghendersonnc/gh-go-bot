@@ -1,6 +1,6 @@
 package main
 
-type GelbooruPostResponse struct {
+type GelbooruPosts struct {
 	Attributes struct {
 		Limit  int `json:"limit"`
 		Offset int `json:"offset"`
