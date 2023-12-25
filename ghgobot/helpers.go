@@ -1,4 +1,4 @@
-package main
+package ghgobot
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func gelbooruRequest(tags string) GelbooruPosts {
+func GelbooruRequest(tags string) GelbooruPosts {
 	gelbooruBaseUrl := fmt.Sprintf(
 		"https://gelbooru.com/index.php?page=dapi&s=post&q=index&api_key=%s&user_id=%s&tags=%s%%20rating:general%%20sort:random&json=1&limit=1",
 		env.Get("GELBOORU_API_KEY", "NO_KEY"),
@@ -44,7 +44,7 @@ func gelbooruRequest(tags string) GelbooruPosts {
 	return result
 }
 
-func genericResponse(s *discordgo.Session, i *discordgo.InteractionCreate, content string, embedUrl string, embedDescription string) {
+func GenericResponse(s *discordgo.Session, i *discordgo.InteractionCreate, content string, embedUrl string, embedDescription string) {
 	embeds := make([]*discordgo.MessageEmbed, 0)
 	if embedUrl != "" {
 		imageEmbed := &discordgo.MessageEmbed{

@@ -1,4 +1,4 @@
-package main
+package ghgobot
 
 import (
 	"github.com/bwmarrin/discordgo"
@@ -12,13 +12,13 @@ var (
 	}
 )
 
-func commandHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
+func CommandHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	if h, ok := commandHandlers[i.ApplicationCommandData().Name]; ok {
 		h(s, i)
 	}
 }
 
-func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
+func MessageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}

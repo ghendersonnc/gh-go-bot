@@ -1,4 +1,4 @@
-package main
+package ghgobot
 
 type GelbooruPosts struct {
 	Attributes struct {

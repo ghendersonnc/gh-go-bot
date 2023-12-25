@@ -1,4 +1,4 @@
-module hello
+module ghgobot
 
 go 1.21.5
 

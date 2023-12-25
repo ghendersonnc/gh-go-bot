@@ -1,4 +1,4 @@
-package main
+package ghgobot
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	commands = []*discordgo.ApplicationCommand{
+	Commands = []*discordgo.ApplicationCommand{
 		{
 			Name:        "ping",
 			Description: "Responds with pong",
@@ -27,7 +27,7 @@ var (
 )
 
 func respondPing(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	genericResponse(s, i, "Pong!", "", "")
+	GenericResponse(s, i, "Pong!", "", "")
 }
 
 func gelbooru(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -41,7 +41,7 @@ func gelbooru(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	var formattedTags string
 	if len(optionMap) == 0 {
 		tags = ""
-		post = gelbooruRequest("")
+		post = GelbooruRequest("")
 	} else if len(optionMap) > 0 {
 		if val, ok := optionMap["tags"]; ok {
 			formattedTags = strings.Replace(val.StringValue(), " ", "%20", -1)
@@ -52,13 +52,13 @@ func gelbooru(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			formattedTags = formattedTags + "%20rating:" + val.StringValue()
 		}
 
-		post = gelbooruRequest(formattedTags)
+		post = GelbooruRequest(formattedTags)
 	}
 
 	if len(post.Post) == 0 {
-		genericResponse(s, i, "No images found!", "", "")
+		GenericResponse(s, i, "No images found!", "", "")
 		return
 	}
 	originalUrl := fmt.Sprintf("https://gelbooru.com/index.php?page=post&s=view&id=%d&tags=%s", post.Post[0].ID, formattedTags)
-	genericResponse(s, i, "Post from Gelbooru", post.Post[0].FileURL, fmt.Sprintf("%s\n%s", originalUrl, tags))
+	GenericResponse(s, i, "Post from Gelbooru", post.Post[0].FileURL, fmt.Sprintf("%s\n%s", originalUrl, tags))
 }

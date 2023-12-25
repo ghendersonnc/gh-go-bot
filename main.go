@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ghgobot/ghgobot"
 	"github.com/bwmarrin/discordgo"
 	"github.com/gofor-little/env"
 	"log"
@@ -10,8 +11,8 @@ import (
 )
 
 func initBot(s *discordgo.Session) {
-	s.AddHandler(messageHandler)
-	s.AddHandler(commandHandler)
+	s.AddHandler(ghgobot.MessageHandler)
+	s.AddHandler(ghgobot.CommandHandler)
 	s.Identify.Intents = discordgo.IntentsGuildMessages
 	s.Identify.Presence.Status = string(discordgo.StatusOnline)
 
@@ -42,9 +43,9 @@ func main() {
 
 	log.Println("Registering commands")
 
-	registeredCommands := make([]*discordgo.ApplicationCommand, len(commands))
+	registeredCommands := make([]*discordgo.ApplicationCommand, len(ghgobot.Commands))
 
-	for i, v := range commands {
+	for i, v := range ghgobot.Commands {
 		cmd, err := discord.ApplicationCommandCreate(discord.State.User.ID, env.Get("DEFAULT_GUILD_ID", "-1"), v)
 		if err != nil {
 			log.Panicf("Could not register command :: %v", err)
