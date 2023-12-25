@@ -67,7 +67,6 @@ func gelbooruRequest(tags string) GelbooruPostResponse {
 
 func genericResponse(s *discordgo.Session, i *discordgo.InteractionCreate, content string, embedUrl string, embedDescription string) {
 	embeds := make([]*discordgo.MessageEmbed, 0)
-
 	if embedUrl != "" {
 		imageEmbed := &discordgo.MessageEmbed{
 			Author:      &discordgo.MessageEmbedAuthor{},
@@ -107,26 +106,27 @@ func gelbooru(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 	var tags string
 	var post GelbooruPostResponse
-
+	var formattedTags string
 	if len(optionMap) == 0 {
 		tags = ""
 		post = gelbooruRequest("")
 	} else if len(optionMap) > 0 {
 		if val, ok := optionMap["tags"]; ok {
-			tags = strings.Replace(val.StringValue(), " ", "%20", -1)
+			formattedTags = strings.Replace(val.StringValue(), " ", "%20", -1)
+			tags = val.StringValue()
 		}
 
 		if val, ok := optionMap["rating"]; ok {
-			tags = tags + "%20rating:" + val.StringValue()
+			formattedTags = formattedTags + "%20rating:" + val.StringValue()
 		}
 
-		post = gelbooruRequest(tags)
+		post = gelbooruRequest(formattedTags)
 	}
 
 	if len(post.Post) == 0 {
 		genericResponse(s, i, "No images found!", "", "")
 		return
 	}
-
-	genericResponse(s, i, "Post from Gelbooru", post.Post[0].FileURL, strings.Replace(tags, "%20", " ", -1))
+	originalUrl := fmt.Sprintf("https://gelbooru.com/index.php?page=post&s=view&id=%d&tags=%s", post.Post[0].ID, formattedTags)
+	genericResponse(s, i, "Post from Gelbooru", post.Post[0].FileURL, fmt.Sprintf("%s\n%s", originalUrl, tags))
 }
